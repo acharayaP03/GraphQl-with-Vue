@@ -24,9 +24,24 @@ const typeDefs = gql`
         todos: [Todo]
     }
 `
+/**
+ * @resolver returns the root query that we define on gql typeDefs
+ */
+
+ const resolvers = {
+    Query: {
+        todos: function() {
+            return todos
+        }
+    }
+}
+
 const server = new ApolloServer({
-    typeDefs
+    typeDefs, resolvers
 });
+
+
+
 
 server.listen().then(({ url }) =>{
     console.log( url)
