@@ -23,6 +23,10 @@ const typeDefs = gql`
     type Query {
         todos: [Todo]
     }
+
+    type Mutation {
+        addTodo(task: String, completed: Boolean): Todo
+    }
 `
 /**
  * @resolver returns the root query that we define on gql typeDefs
@@ -32,6 +36,13 @@ const typeDefs = gql`
     Query: {
         todos: function() {
             return todos
+        }
+    },
+    Mutation: {
+        addTodo: (_, args) => {
+            const todo = { task: args.task, completed: args.completed}
+            todos.push(todo)
+            return todo;
         }
     }
 }
