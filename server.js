@@ -1,4 +1,28 @@
 const { ApolloServer, gql } = require('apollo-server');
+const mongoose = require('mongoose');
+
+/**
+ * @dotenv import dotenv for environment variables
+ */
+require('dotenv').config({ path: '.env'});
+
+/**
+ * @mongodb connections here , 
+ * @note characters like [ ], # and others needs to be escapped. below is a proper way of connecting to mongo db
+ * see more on mongo atlas documentation for errors.
+ */
+
+mongoose
+    .connect(
+        process.env.MONGO_URI, 
+        {
+            user: process.env.MONGODB_USER,
+            pass: process.env.MONGODB_PASSWORD,
+            useNewUrlParser: true
+        }
+    )
+    .then(() => console.log("Mongo DB successfully connected"))
+    .catch(err => console.log(err))
 
 const todos = [
     { 
