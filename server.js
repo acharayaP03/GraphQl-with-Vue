@@ -5,6 +5,12 @@ const mongoose = require('mongoose');
  * @dotenv import dotenv for environment variables
  */
 require('dotenv').config({ path: '.env'});
+/**
+ * Import models here
+ */
+
+const User = require('./models/User');
+const Post = require('./models/Post');
 
 /**
  * @mongodb connections here , 
@@ -71,8 +77,15 @@ const typeDefs = gql`
     }
 }
 
+/**
+ * use models that was created to apollo server in @constext 
+ */
 const server = new ApolloServer({
-    typeDefs, resolvers
+    typeDefs, resolvers,
+    context:{
+        User,
+        Post
+    }
 });
 
 
