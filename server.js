@@ -11,14 +11,13 @@ const path = require('path');
 const filePath = path.join(__dirname, 'typeDefs.gql');
 const typeDefs = fs.readFileSync(filePath, 'utf-8')
 const resolvers = require('./resolvers');
+
+
 /**
  * @dotenv import dotenv for environment variables
+ * @import Mongoose models
  */
 require('dotenv').config({ path: '.env'});
-/**
- * Import models here
- */
-
 const User = require('./models/User');
 const Post = require('./models/Post');
 
@@ -27,7 +26,6 @@ const Post = require('./models/Post');
  * @note characters like [ ], # and others needs to be escapped. below is a proper way of connecting to mongo db
  * see more on mongo atlas documentation for errors.
  */
-
 mongoose
     .connect(
         process.env.MONGO_URI, 
@@ -40,19 +38,9 @@ mongoose
     .then(() => console.log("Mongo DB successfully connected"))
     .catch(err => console.log(err))
 
-const todos = [
-    { 
-        task: "Wash my car.",
-        completed: false
-    },
-    {
-        task: "Buy work shoes",
-        completed: false
-    }
-]
-
 /**
- * use models that was created to apollo server in @constext 
+ * Create apollo serve with typedefs, reslovers and context
+ * use models that was created to apollo server in @context 
  */
 const server = new ApolloServer({
     typeDefs, resolvers,
