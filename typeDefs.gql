@@ -36,8 +36,13 @@ type Query {
     get_user: User
 }
 
+type Query {
+    get_posts: [Post]
+}
+
 # Mutation type
 
 type Mutation {
+    add_post(title: String!, image_url: String!, categories: [String]!, description: String!, author_id: ID!): Post!
     signup_user(username: String!, email: String!, password: String!): User!
 }
