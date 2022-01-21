@@ -1,6 +1,16 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer } = require('apollo-server');
 const mongoose = require('mongoose');
+const fs = require('fs')
+const path = require('path');
 
+
+/**
+ * Read typeDefs.gql
+ */
+
+const filePath = path.join(__dirname, 'typeDefs.gql');
+const typeDefs = fs.readFileSync(filePath, 'utf-8')
+const resolvers = require('./resolvers');
 /**
  * @dotenv import dotenv for environment variables
  */
@@ -40,42 +50,6 @@ const todos = [
         completed: false
     }
 ]
-
-/**
- * create a typedefs for apolloserver
- */
-const typeDefs = gql`
-    type Todo {
-        task: String
-        completed: Boolean
-    }
-
-    type Query {
-        todos: [Todo]
-    }
-
-    type Mutation {
-        addTodo(task: String, completed: Boolean): Todo
-    }
-`
-/**
- * @resolver returns the root query that we define on gql typeDefs
- */
-
- const resolvers = {
-    Query: {
-        todos: function() {
-            return todos
-        }
-    },
-    Mutation: {
-        addTodo: (_, { task, completed}) => {
-            const todo = { task, completed }
-            todos.push(todo)
-            return todo;
-        }
-    }
-}
 
 /**
  * use models that was created to apollo server in @constext 

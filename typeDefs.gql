@@ -1,0 +1,43 @@
+# Create types for all mongoose model
+
+directive @unique on FIELD_DEFINITION
+
+type User {
+    _id: ID
+    username: String! @unique
+    email: String!
+    password: String!
+    avatar: String!
+    created_at: String
+    favorites: [Post]
+}
+
+type Post {
+    title: String!
+    image_url: String!
+    categories: [String]!
+    description: String!
+    created_at: String
+    likes: Int
+    author: User
+    messages: [Message]
+}
+
+type Message {
+    _id: ID
+    message_body: String!
+    message_date: String!
+    message_user: User!
+}
+
+# Query type
+
+type Query {
+    get_user: User
+}
+
+# Mutation type
+
+type Mutation {
+    signup_user(username: String!, email: String!, password: String!): User!
+}
